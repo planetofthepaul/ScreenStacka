@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TV Compare — Two Screens</title>
+<meta name="description" content="Instant, minimalist two-TV size comparison with overlays and clear % difference." />
+<style>
+  :root{
+    --bg:#0e1116; --panel:#141824; --ink:#eef2f7; --muted:#98a1ab; --line:#232a36;
+    --c1:#7dd3fc; --c2:#a78bfa; --focus:#3b82f6;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f7f9fc; --panel:#ffffff; --ink:#0e1116; --muted:#5d6673; --line:#e7ebf2; }
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:15px/1.5 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:16px}
+
+  header{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+  .brand{display:flex; align-items:center; gap:10px}
+  .dot{width:18px; height:18px; border-radius:6px;
+       background:conic-gradient(from 210deg,var(--c1),var(--c2),var(--c1))}
+  h1{font-size:18px; margin:0}
+  .spacer{flex:1}
+  .btn{
+    appearance:none; border:1px solid var(--line); background:transparent; color:var(--ink);
+    padding:8px 10px; border-radius:10px; cursor:pointer; font-weight:600
+  }
+  .btn:focus{outline:2px solid var(--focus); outline-offset:2px}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px}
+
+  .controls{padding:12px}
+  .rows{display:grid; gap:10px}
+  .row{
+    display:grid; gap:10px; grid-template-columns: 1fr 1fr 1fr;
+    align-items:center; border:1px solid var(--line); border-radius:10px; padding:10px;
+    background:transparent
+  }
+  .label{font-weight:600; display:flex; align-items:center; gap:8px}
+  .sw{width:12px; height:12px; border-radius:3px}
+  input[type="number"], select{
+    width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:transparent; color:inherit
+  }
+
+  .inject{padding:10px 12px; border-top:1px solid var(--line); display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .badge{
+    display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px;
+    border:1px solid var(--line); background:rgba(255,255,255,0.02)
+  }
+  .big{font-weight:700}
+  .small{color:var(--muted); font-size:13px}
+
+  .stage{margin-top:12px}
+  .legend{display:flex; gap:8px; flex-wrap:wrap; padding:10px 12px}
+  .pill{display:flex; align-items:center; gap:8px; padding:6px 8px; border:1px solid var(--line); border-radius:10px; color:var(--muted)}
+  .canvas{height:54vh; min-height:320px; display:flex; align-items:center; justify-content:center;
+    background:
+      repeating-linear-gradient(0deg,var(--line),var(--line) 1px,transparent 1px,transparent 22px),
+      repeating-linear-gradient(90deg,var(--line),var(--line) 1px,transparent 1px,transparent 22px)}
+  svg{width:100%; height:100%}
+
+  .resources{margin-top:12px; padding:12px}
+  .resources h2{margin:0 0 8px; font-size:16px}
+  .links{display:grid; gap:6px}
+  .links a{color:inherit; text-decoration:underline}
+  .grid-2{display:grid; gap:10px}
+  @media(min-width:660px){ .grid-2{grid-template-columns:1fr 1fr} }
+
+  @media (max-width:700px){
+    .row{grid-template-columns: 1fr 1fr}
+    .row .label{grid-column:1/-1}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><div class="dot" aria-hidden="true"></div><h1>TV Compare — Two Screens</h1></div>
+      <div class="spacer"></div>
+      <button class="btn" id="shareBtn" title="Copy link">Share</button>
+      <button class="btn" id="resetBtn" title="Reset defaults">Reset</button>
+    </header>
+
+    <!-- Controls -->
+    <section class="card controls" aria-label="Inputs">
+      <div class="rows" id="rows"></div>
+      <div class="inject" id="inject"></div>
+    </section>
+
+    <!-- Overlay stage -->
+    <section class="card stage" aria-label="Visual overlay">
+      <div class="legend" id="legend"></div>
+      <div class="canvas"><svg id="svg" viewBox="0 0 1000 650" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg></div>
+    </section>
+
+    <!-- Resources -->
+    <section class="card resources" aria-label="TV picks and AR">
+      <div class="grid-2">
+        <div>
+          <h2>Recommended by Size</h2>
+          <div class="links">
+            <a href="https://substack.com/@paulstaples" target="_blank" rel="noopener">Best 43-inch TVs</a>
+            <a href="https://substack.com/@paulstaples" target="_blank" rel="noopener">Best 50-inch TVs</a>
+            <a href="https://substack.com/@paulstaples" target="_blank" rel="noopener">Best 55-inch TVs</a>
+            <a href="https://substack.com/@paulstaples" target="_blank" rel="noopener">Best 65-inch TVs</a>
+            <a href="https://substack.com/@paulstaples" target="_blank" rel="noopener">Best 75–77-inch TVs</a>
+            <a href="https://substack.com/@paulstaples" target="_blank" rel="noopener">Best 80–85-inch TVs</a>
+          </div>
+        </div>
+        <div>
+          <h2>View in Room (Amazon)</h2>
+    
+<p style="margin:4px 0 10px;color:var(--muted);font-size:14px;">
+Use Amazon's augmented reality feature to preview how each TV size will look on your wall or compare it to your current screen right in your room.
+</p>
+<div class="links">
+  <a href="https://www.amazon.com/s?k=43+inch+tv&rh=p_n_is_ar_featured%3A17825976011" target="_blank" rel="noopener">43-inch TV — view in room</a>
+  <a href="https://www.amazon.com/s?k=50+inch+tv&rh=p_n_is_ar_featured%3A17825976011" target="_blank" rel="noopener">50-inch TV — view in room</a>
+  <a href="https://www.amazon.com/s?k=55+inch+tv&rh=p_n_is_ar_featured%3A17825976011" target="_blank" rel="noopener">55-inch TV — view in room</a>
+  <a href="https://www.amazon.com/s?k=65+inch+tv&rh=p_n_is_ar_featured%3A17825976011" target="_blank" rel="noopener">65-inch TV — view in room</a>
+  <a href="https://www.amazon.com/s?k=75+inch+tv&rh=p_n_is_ar_featured%3A17825976011" target="_blank" rel="noopener">75-inch TV — view in room</a>
+  <a href="https://www.amazon.com/s?k=85+inch+tv&rh=p_n_is_ar_featured%3A17825976011" target="_blank" rel="noopener">85-inch TV — view in room</a>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  const $ = (s, el=document)=>el.querySelector(s);
+  const COLORS = ["var(--c1)","var(--c2)"];
+  const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
+  const fx1=n=>Number.isFinite(n)?(+n).toFixed(1):"0.0";
+  const parseAspect = s => {
+      const [a,b] = String(s).split(":").map(x=>Math.abs(parseFloat(x)));
+      return (!a||!b)?{a:16,b:9}:{a,b};
+  };
+  const dims = (diag, aspect) => {
+      const {a,b}=parseAspect(aspect);
+      const k=Math.hypot(a,b);
+      return {w:diag*a/k, h:diag*b/k};
+  };
+
+  const state = { items:[] };
+
+  const rowsEl=$("#rows"), inject=$("#inject"), svg=$("#svg"), legend=$("#legend");
+  const shareBtn=$("#shareBtn"), resetBtn=$("#resetBtn");
+
+  function addRow(idx, preset){
+    const color = COLORS[idx];
+    const data = {
+      idx, color,
+      name:`TV ${idx+1}`,
+      diagonal: preset?.diagonal ?? (idx===0?55:65),
+      aspect: preset?.aspect ?? "16:9",
+      refs:{}
+    };
+
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = `
+      <div class="label"><span class="sw" style="background:${color}"></span>${data.name}</div>
+      <label>
+        <span class="small">Diagonal (in)</span>
+        <input id="diag-${idx}" type="number" min="1" step="0.1" value="${data.diagonal}" />
+      </label>
+      <label>
+        <span class="small">Aspect</span>
+        <select id="asp-${idx}">
+          <option value="16:9">16:9</option>
+          <option value="16:10">16:10</option>
+          <option value="21:9">21:9</option>
+          <option value="4:3">4:3</option>
+          <option value="custom">Custom</option>
+        </select>
+      </label>
+      <label id="custwrap-${idx}" style="display:none">
+        <span class="small">Custom W:H</span>
+        <input id="cust-${idx}" type="text" placeholder="e.g. 18:9" />
+      </label>
+    `;
+    rowsEl.appendChild(row);
+
+    data.refs.diag = $("#diag-"+idx, row);
+    data.refs.asp  = $("#asp-"+idx, row);
+    data.refs.cw   = $("#custwrap-"+idx, row);
+    data.refs.cust = $("#cust-"+idx, row);
+
+    if(!["16:9","16:10","21:9","4:3"].includes(data.aspect)){
+      data.refs.asp.value="custom";
+      data.refs.cw.style.display="";
+      data.refs.cust.value=data.aspect;
+    }else{
+      data.refs.asp.value=data.aspect;
+    }
+
+    const update = ()=>{
+      data.diagonal = clamp(parseFloat(data.refs.diag.value)||0, 1, 10000);
+      const sel = data.refs.asp.value;
+      if(sel==="custom"){
+        data.refs.cw.style.display="";
+        const v=(data.refs.cust.value||"").trim();
+        data.aspect = v.includes(":")?v:"16:9";
+      }else{
+        data.refs.cw.style.display="none";
+        data.aspect = sel;
+      }
+      render(); saveHash();
+    };
+    data.refs.diag.addEventListener("input", update);
+    data.refs.asp.addEventListener("change", update);
+    data.refs.cust?.addEventListener("input", update);
+
+    state.items[idx]=data;
+  }
+
+  function render(){
+    svg.innerHTML=""; legend.innerHTML=""; inject.innerHTML="";
+
+    const [A,B] = state.items;
+    if(!A||!B) return;
+
+    const a = dims(A.diagonal, A.aspect), b = dims(B.diagonal, B.aspect);
+    const aArea=a.w*a.h, bArea=b.w*b.h;
+
+    const areaChange  = ((bArea/aArea)-1)*100;
+    const widthChange = ((b.w/a.w)-1)*100;
+    const heightChange= ((b.h/a.h)-1)*100;
+
+    const badge = document.createElement("div");
+    badge.className="badge";
+    badge.innerHTML = `
+      <span class="sw" style="background:${B.color};width:10px;height:10px;border-radius:3px"></span>
+      <span class="big">${B.name} is ${fx1(areaChange)}% larger by area</span>
+      <span class="small">(${fx1(widthChange)}% wider, ${fx1(heightChange)}% taller vs ${A.name})</span>
+    `;
+    inject.appendChild(badge);
+
+    [A,B].forEach(it=>{
+      const p=document.createElement("div");
+      p.className="pill";
+      p.innerHTML = `<span class="sw" style="background:${it.color}"></span>${it.name}`;
+      legend.appendChild(p);
+    });
+
+    const maxW=Math.max(a.w,b.w), maxH=Math.max(a.h,b.h);
+    const pad=30, vw=1000-pad*2, vh=650-pad*2;
+    const scale=Math.min(vw/maxW, vh/maxH);
+
+    [ {m:a,c:A.color}, {m:b,c:B.color} ].forEach((o,i)=>{
+      const w=o.m.w*scale, h=o.m.h*scale;
+      const x=pad+(vw-w)/2, y=pad+(vh-h)/2;
+      const r=document.createElementNS("http://www.w3.org/2000/svg","rect");
+      r.setAttribute("x",x); r.setAttribute("y",y);
+      r.setAttribute("width",w); r.setAttribute("height",h);
+      r.setAttribute("rx",8);
+      r.setAttribute("fill",o.c);
+      r.setAttribute("fill-opacity", i===0?0.24:0.34);
+      r.setAttribute("stroke",o.c);
+      r.setAttribute("stroke-width","2");
+      svg.appendChild(r);
+    });
+  }
+
+  function saveHash(){
+    const data = { items: state.items.map(i=>({d:i.diagonal, a:i.aspect})) };
+    history.replaceState(null,"","#"+encodeURIComponent(btoa(JSON.stringify(data))));
+  }
+  function loadHash(){
+    const h=location.hash.slice(1); if(!h) return false;
+    try{
+      const j=JSON.parse(atob(decodeURIComponent(h)));
+      rowsEl.innerHTML=""; state.items.length=0;
+      addRow(0, {diagonal:+(j.items?.[0]?.d ?? 55), aspect:(j.items?.[0]?.a ?? "16:9")});
+      addRow(1, {diagonal:+(j.items?.[1]?.d ?? 65), aspect:(j.items?.[1]?.a ?? "16:9")});
+      render();
+      return true;
+    }catch{ return false; }
+  }
+
+  shareBtn.addEventListener("click", async ()=>{
+    saveHash();
+    try{
+      await navigator.clipboard.writeText(location.href);
+      shareBtn.textContent="Link copied";
+      setTimeout(()=>shareBtn.textContent="Share",1000);
+    }catch{
+      prompt("Copy this link:", location.href);
+    }
+  });
+
+  resetBtn.addEventListener("click", ()=>{
+    if(!confirm('Reset to defaults (55" vs 65")?')) return;
+    location.hash="";
+    rowsEl.innerHTML=""; state.items.length=0;
+    boot();
+  });
+
+  function boot(){
+    addRow(0,{diagonal:55, aspect:"16:9"});
+    addRow(1,{diagonal:65, aspect:"16:9"});
+    render(); saveHash();
+  }
+
+  if(!loadHash()) boot();
+})();
+</script>
+</body>
+</html>
