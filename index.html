@@ -3,97 +3,752 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title> Compare TV and Computer Monitor Sizes — Two Screens</title>
-<meta name="description" content="Instant, minimalist two-TV size comparison with overlays and clear % difference." />
+<title>ScreenStacka - Visualize & Compare TV Sizes Before You Buy</title>
+<meta name="description" content="Make confident TV buying decisions. Compare screen sizes side-by-side with precise measurements and instant visual overlays. See exactly how much bigger your next TV will be." />
 <style>
   :root{
-    --bg:#0e1116; --panel:#141824; --ink:#eef2f7; --muted:#98a1ab; --line:#232a36;
-    --c1:#7dd3fc; --c2:#a78bfa; --focus:#3b82f6;
+    --bg:#09090b;
+    --surface:#18181b;
+    --panel:#27272a;
+    --elevated:#3f3f46;
+    --ink:#fafafa;
+    --muted:#a1a1aa;
+    --subtle:#52525b;
+    --line:#3f3f46;
+    --c1:#06b6d4;
+    --c2:#8b5cf6;
+    --focus:#3b82f6;
+    --accent-from:#06b6d4;
+    --accent-to:#8b5cf6;
+    --success:#10b981;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5);
   }
+  
   @media (prefers-color-scheme: light){
-    :root{ --bg:#f7f9fc; --panel:#ffffff; --ink:#0e1116; --muted:#5d6673; --line:#e7ebf2; }
+    :root{ 
+      --bg:#fafaf9;
+      --surface:#ffffff;
+      --panel:#f5f5f4;
+      --elevated:#e7e5e4;
+      --ink:#18181b;
+      --muted:#71717a;
+      --subtle:#a1a1aa;
+      --line:#e4e4e7;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.15);
+    }
   }
+  
   *{box-sizing:border-box}
-  html,body{height:100%}
+  html,body{height:100%; margin:0}
   body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font:15px/1.5 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    background:var(--bg);
+    color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
     overflow-x:hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  .wrap{max-width:860px; margin:0 auto; padding:16px}
+  
+  .wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
 
-  header{display:flex; align-items:center; gap:10px; margin-bottom:10px}
-  .brand{display:flex; align-items:center; gap:10px}
-  .dot{width:18px; height:18px; border-radius:6px;
-       background:conic-gradient(from 210deg,var(--c1),var(--c2),var(--c1))}
-  h1{font-size:18px; margin:0}
+  /* Header */
+  header{
+    display:flex;
+    align-items:center;
+    gap: 20px;
+    margin-bottom: 60px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+  }
+  
+  .brand{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+  }
+  
+  .dot{
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .dot::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: shimmer 3s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  }
+  
+  .logo-text{
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--ink), var(--muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
   .spacer{flex:1}
+  
   .btn{
-    appearance:none; border:1px solid var(--line); background:transparent; color:var(--ink);
-    padding:8px 10px; border-radius:10px; cursor:pointer; font-weight:600
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 12px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    letter-spacing: -0.01em;
   }
-  .btn:focus{outline:2px solid var(--focus); outline-offset:2px}
+  
+  .btn:hover{
+    background: var(--panel);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn:active{
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .btn:focus{
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
 
-  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px}
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c1);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0 0 24px;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero .subtitle {
+    font-size: 22px;
+    color: var(--muted);
+    max-width: 700px;
+    margin: 0 auto 32px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(6, 182, 212, 0.4);
+  }
+  
+  .hero-cta:active {
+    transform: translateY(0);
+  }
 
-  .controls{padding:12px}
-  .rows{display:grid; gap:10px}
+  /* Features Grid */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 80px;
+  }
+  
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--subtle);
+  }
+  
+  .feature-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  
+  .feature-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  
+  .feature-card p {
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* Section Headers */
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  
+  .section-header h2 {
+    font-size: 36px;
+    font-weight: 800;
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+  }
+  
+  .section-header p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Cards */
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+
+  /* Controls */
+  .controls{
+    padding: 32px;
+  }
+  
+  .rows{
+    display: grid;
+    gap: 20px;
+  }
+  
   .row{
-    display:grid; gap:10px; grid-template-columns: 1fr 1fr 1fr;
-    align-items:center; border:1px solid var(--line); border-radius:10px; padding:10px;
-    background:transparent
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    background: var(--panel);
+    transition: all 0.2s ease;
   }
-  .label{font-weight:600; display:flex; align-items:center; gap:8px}
-  .sw{width:12px; height:12px; border-radius:3px}
-  input[type="number"], select{
-    width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:transparent; color:inherit
+  
+  .row:hover {
+    border-color: var(--subtle);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .label{
+    font-weight: 700;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.01em;
+  }
+  
+  .sw{
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  label {
+    display: block;
+  }
+  
+  .small {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  
+  input[type="number"], 
+  input[type="text"],
+  select{
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  
+  input[type="number"]:hover,
+  input[type="text"]:hover,
+  select:hover {
+    border-color: var(--subtle);
+  }
+  
+  input[type="number"]:focus,
+  input[type="text"]:focus,
+  select:focus{
+    outline: none;
+    border-color: var(--focus);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
   }
 
-  .inject{padding:10px 12px; border-top:1px solid var(--line); display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  /* Stats Badge */
+  .inject{
+    padding: 28px 32px;
+    border-top: 2px solid var(--line);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+    background: linear-gradient(135deg, var(--panel), var(--surface));
+  }
+  
   .badge{
-    display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px;
-    border:1px solid var(--line); background:rgba(255,255,255,0.02)
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 28px;
+    border-radius: 16px;
+    border: 2px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+    flex: 1;
+    min-width: 320px;
   }
-  .big{font-weight:700}
-  .small{color:var(--muted); font-size:13px}
+  
+  .big{
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+  
+  .small-text{
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+  }
 
-  .stage{margin-top:12px}
-  .legend{display:flex; gap:8px; flex-wrap:wrap; padding:10px 12px}
-  .pill{display:flex; align-items:center; gap:8px; padding:6px 8px; border:1px solid var(--line); border-radius:10px; color:var(--muted)}
-  .canvas{height:54vh; min-height:320px; display:flex; align-items:center; justify-content:center;
+  /* Stage */
+  .stage{
+    margin-top: 24px;
+  }
+  
+  .legend{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 24px 32px;
+    background: var(--panel);
+    border-bottom: 2px solid var(--line);
+  }
+  
+  .pill{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    color: var(--ink);
+    background: var(--surface);
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .canvas{
+    height: 60vh;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background:
-      repeating-linear-gradient(0deg,var(--line),var(--line) 1px,transparent 1px,transparent 22px),
-      repeating-linear-gradient(90deg,var(--line),var(--line) 1px,transparent 1px,transparent 22px)}
-  svg{width:100%; height:100%}
+      repeating-linear-gradient(0deg, var(--line), var(--line) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, var(--line), var(--line) 1px, transparent 1px, transparent 24px);
+    background-color: var(--bg);
+    padding: 20px;
+  }
+  
+  svg{
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(var(--shadow-lg));
+  }
 
-  .resources{margin-top:12px; padding:12px}
-  .resources h2{margin:0 0 8px; font-size:16px}
-  .links{display:grid; gap:6px}
-  .links a{color:inherit; text-decoration:underline}
-  .grid-2{display:grid; gap:10px}
-  @media(min-width:660px){ .grid-2{grid-template-columns:1fr 1fr} }
+  /* Resources */
+  .resources{
+    padding: 40px;
+  }
+  
+  .resources h2{
+    margin: 0 0 24px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  
+  .links{
+    display: grid;
+    gap: 12px;
+  }
+  
+  .links a{
+    color: var(--c1);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: var(--panel);
+    border: 2px solid var(--line);
+    transition: all 0.2s ease;
+    display: block;
+    font-size: 15px;
+  }
+  
+  .links a:hover{
+    background: var(--elevated);
+    border-color: var(--c1);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .grid-2{
+    display: grid;
+    gap: 32px;
+  }
+  
+  .resource-img {
+    width: 100%;
+    border-radius: 16px;
+    margin: 20px 0 20px;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--line);
+  }
+  
+  .resource-text {
+    margin: 12px 0 20px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 500;
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-top: 1px solid var(--line);
+    margin-top: 80px;
+  }
+  
+  footer p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  
+  @media(min-width:768px){
+    .grid-2{
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 
-  @media (max-width:700px){
-    .row{grid-template-columns: 1fr 1fr}
-    .row .label{grid-column:1/-1}
+  /* Responsive */
+  @media (max-width:768px){
+    .wrap {
+      padding: 20px 16px 40px;
+    }
+    
+    header {
+      margin-bottom: 40px;
+      padding: 12px 0;
+    }
+    
+    .logo-text {
+      font-size: 22px;
+    }
+    
+    .dot {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .btn {
+      padding: 10px 18px;
+      font-size: 14px;
+    }
+    
+    .hero {
+      margin-bottom: 60px;
+    }
+    
+    .hero h1 {
+      font-size: 36px;
+    }
+    
+    .hero .subtitle {
+      font-size: 18px;
+    }
+    
+    .hero-cta {
+      padding: 14px 28px;
+      font-size: 16px;
+    }
+    
+    .section-header h2 {
+      font-size: 28px;
+    }
+    
+    .section-header p {
+      font-size: 16px;
+    }
+    
+    .features {
+      margin-bottom: 60px;
+    }
+    
+    .feature-card {
+      padding: 24px;
+    }
+    
+    .controls {
+      padding: 24px;
+    }
+    
+    .row{
+      grid-template-columns: 1fr 1fr;
+      padding: 20px;
+      gap: 16px;
+    }
+    
+    .row .label{
+      grid-column: 1/-1;
+      font-size: 16px;
+    }
+    
+    .inject {
+      padding: 24px;
+    }
+    
+    .badge {
+      min-width: 100%;
+      padding: 18px 24px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .big {
+      font-size: 16px;
+    }
+    
+    .small-text {
+      font-size: 14px;
+    }
+    
+    .legend {
+      padding: 20px 24px;
+    }
+    
+    .canvas {
+      min-height: 340px;
+      height: 50vh;
+    }
+    
+    .resources {
+      padding: 28px 24px;
+    }
+    
+    .resources h2 {
+      font-size: 20px;
+    }
+    
+    footer {
+      padding: 40px 20px 30px;
+      margin-top: 60px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .wrap {
+      padding: 16px 12px 32px;
+    }
+    
+    .hero h1 {
+      font-size: 32px;
+    }
+    
+    .hero .subtitle {
+      font-size: 16px;
+    }
+    
+    .section-header h2 {
+      font-size: 24px;
+    }
+    
+    .row {
+      padding: 16px;
+    }
+    
+    input[type="number"], 
+    input[type="text"],
+    select {
+      padding: 12px 14px;
+      font-size: 15px;
+    }
   }
 </style>
-  <!-- Privacy-friendly analytics by Plausible -->
+<!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-ZA-JsU5X32A_4iYOvx-Qs.js"></script>
 <script>
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
   plausible.init()
 </script>
-
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="brand"><div class="dot" aria-hidden="true"></div><h1>ScreenStacka - Compare TV Screen Sizes</h1></div>
+      <div class="brand">
+        <div class="dot" aria-hidden="true"></div>
+        <h1 class="logo-text">ScreenStacka</h1>
+      </div>
       <div class="spacer"></div>
       <button class="btn" id="shareBtn" title="Copy link">Share</button>
       <button class="btn" id="resetBtn" title="Reset defaults">Reset</button>
     </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">
+        ✨ Free TV Size Comparison Tool
+      </div>
+      <h1>Stop Guessing.<br/>See Your Next TV's Real Size.</h1>
+      <p class="subtitle">
+        Visualize exactly how much bigger your new TV will be with our instant side-by-side comparison. Get precise measurements and make confident buying decisions in seconds.
+      </p>
+      <a href="#comparison-tool" class="hero-cta">
+        <span>Try It Now</span>
+        <span>↓</span>
+      </a>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📐</div>
+        <h3>Precise Visual Overlay</h3>
+        <p>See both TV sizes stacked on top of each other with accurate proportions. No more trying to imagine the difference—you'll see it instantly.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Real Size Metrics</h3>
+        <p>Get exact percentage differences in total area, width, and height. Know precisely how much larger your upgrade will be.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Comparison</h3>
+        <p>Just enter your current and desired TV sizes. Results update in real-time as you explore different options—no waiting, no confusion.</p>
+      </div>
+    </section>
+
+    <!-- Section Header -->
+    <div class="section-header" id="comparison-tool">
+      <h2>Compare Your TV Sizes</h2>
+      <p>Enter your current TV size and the size you're considering. Watch them stack visually and see the exact difference.</p>
+    </div>
 
     <!-- Controls -->
     <section class="card controls" aria-label="Inputs">
@@ -111,38 +766,36 @@
     <section class="card resources" aria-label="TV picks and AR">
       <div class="grid-2">
         <div>
-          <h2>Recommended by Size</h2>
+          <h2>🏆 Top-Rated TVs by Size</h2>
+          <p class="resource-text">Ready to buy? Browse the highest-rated TVs on Amazon for every popular size.</p>
           <div class="links">
-            <a href="https://www.amazon.com/s?k=43+inch+tv&s=review-rank&crid=1JQ23OGPSG32&qid=1762191461&sprefix=43+inch%2Caps%2C133&ref=sr_st_review-rank&ds=v1%3AXjmj8bJMwkF5UCmtaDU0l39cpAATJH8pi9a7jGs1NHA" target="_blank" rel="noopener">Best 43-inch TVs</a>
-            <a href="https://www.amazon.com/s?k=50+inch+tv&s=review-rank&crid=2CL7XHZR4UWQQ&qid=1762191512&sprefix=50+inch+tv%2Caps%2C163&ref=sr_st_review-rank&ds=v1%3AQJCVTIyHMylduGW04qTN09doYGDf67lx5xBMqH6FTrY" target="_blank" rel="noopener">Best 50-inch TVs</a>
-            <a href="https://www.amazon.com/s?k=55+inch+tv&s=review-rank&crid=2DBEDSF7332OK&qid=1762191530&sprefix=55+inch+tv%2Caps%2C149&ref=sr_st_review-rank&ds=v1%3AezjWxUeFP6e0vYzODTDmfjMexwdZms9cX6l8UvzueQs" target="_blank" rel="noopener">Best 55-inch TVs</a>
-            <a href="https://www.amazon.com/s?k=65+inch+tv&s=review-rank&crid=2CT8HM4JOMK3A&qid=1762191559&sprefix=65+inch+tv%2Caps%2C153&ref=sr_st_review-rank&ds=v1%3A2wzL9EF%2BwhLzs1gVZXCykYg5pxwb9MZW0AJaZCbwPa0" target="_blank" rel="noopener">Best 65-inch TVs</a>
-            <a href="https://www.amazon.com/s?k=75+inch+tv&s=review-rank&crid=21ASX7TW4GW6O&qid=1762191590&sprefix=75+inch+tv%2Caps%2C145&ref=sr_st_review-rank&ds=v1%3AOXQagpuOLtPHcjTFsiwRQuKc7bX7Gcxd9uVMUc33RCg" target="_blank" rel="noopener">Best 75-inch TVs</a>
-            <a href="https://www.amazon.com/s?k=85+inch+tv&s=review-rank&crid=OQWDKUXNFUIS&qid=1762191623&sprefix=85+inch+tv%2Caps%2C159&ref=sr_st_review-rank&ds=v1%3Avpcccc8hovwLwAiSc93Wrz5MG605Ro%2FMoI3v0G22r40" target="_blank" rel="noopener">Best 85-inch TVs</a>
+            <a href="https://www.amazon.com/s?k=43+inch+tv&s=review-rank&crid=1JQ23OGPSG32&qid=1762191461&sprefix=43+inch%2Caps%2C133&ref=sr_st_review-rank&ds=v1%3AXjmj8bJMwkF5UCmtaDU0l39cpAATJH8pi9a7jGs1NHA" target="_blank" rel="noopener">Best 43-inch TVs →</a>
+            <a href="https://www.amazon.com/s?k=50+inch+tv&s=review-rank&crid=2CL7XHZR4UWQQ&qid=1762191512&sprefix=50+inch+tv%2Caps%2C163&ref=sr_st_review-rank&ds=v1%3AQJCVTIyHMylduGW04qTN09doYGDf67lx5xBMqH6FTrY" target="_blank" rel="noopener">Best 50-inch TVs →</a>
+            <a href="https://www.amazon.com/s?k=55+inch+tv&s=review-rank&crid=2DBEDSF7332OK&qid=1762191530&sprefix=55+inch+tv%2Caps%2C149&ref=sr_st_review-rank&ds=v1%3AezjWxUeFP6e0vYzODTDmfjMexwdZms9cX6l8UvzueQs" target="_blank" rel="noopener">Best 55-inch TVs →</a>
+            <a href="https://www.amazon.com/s?k=65+inch+tv&s=review-rank&crid=2CT8HM4JOMK3A&qid=1762191559&sprefix=65+inch+tv%2Caps%2C153&ref=sr_st_review-rank&ds=v1%3A2wzL9EF%2BwhLzs1gVZXCykYg5pxwb9MZW0AJaZCbwPa0" target="_blank" rel="noopener">Best 65-inch TVs →</a>
+            <a href="https://www.amazon.com/s?k=75+inch+tv&s=review-rank&crid=21ASX7TW4GW6O&qid=1762191590&sprefix=75+inch+tv%2Caps%2C145&ref=sr_st_review-rank&ds=v1%3AOXQagpuOLtPHcjTFsiwRQuKc7bX7Gcxd9uVMUc33RCg" target="_blank" rel="noopener">Best 75-inch TVs →</a>
+            <a href="https://www.amazon.com/s?k=85+inch+tv&s=review-rank&crid=OQWDKUXNFUIS&qid=1762191623&sprefix=85+inch+tv%2Caps%2C159&ref=sr_st_review-rank&ds=v1%3Avpcccc8hovwLwAiSc93Wrz5MG605Ro%2FMoI3v0G22r40" target="_blank" rel="noopener">Best 85-inch TVs →</a>
           </div>
         </div>
         <div>
-          <h2>View in Room (Amazon Augmented Reality)</h2>
-
-          <img src="https://raw.githubusercontent.com/planetofthepaul/ScreenStacka/main/ScreenStackaScreenSizeARCompare.JPG" alt="Woman using AR to visualize TV size on wall" style="width:100%;border-radius:8px;margin:8px 0 10px">
-    
-<p style="margin:4px 0 10px;color:var(--muted);font-size:14px;">
-Use Amazon's Augmented Reality feature to preview how each TV size will look on your wall or compare it to your current screen right in your room.
-</p>
-          <p style="margin:4px 0 10px;color:var(--muted);font-size:14px;">
-INSTRUCTIONS: To see how the TV looks in your room, click the link below, then open using Amazon app when prompted (MUST USE APP, NOT MOBILE BROWSER).
-</p>
-           <p style="margin:4px 0 10px;color:var(--muted);font-size:14px;">
-Choose the size TV you want to see, then swipe to the second product image and click on the white pill-shaped button that says "View in your room".
-</p>
-<div class="links">
-  <a href="https://www.amazon.com/dp/B0DXN42NXS?_encoding=UTF8&pd_rd_i=B0DXN42NXS&qid=1762192591&pd_rd_w=i16OA&content-id=amzn1.sym.e2c0b4b3-407d-4c4f-9d2b-fd120ec9dafb%3Aamzn1.sym.e2c0b4b3-407d-4c4f-9d2b-fd120ec9dafb&pf_rd_p=e2c0b4b3-407d-4c4f-9d2b-fd120ec9dafb&pf_rd_r=K5N1K8WP15JN23X7ZY6P&pd_rd_wg=dtZfd&pd_rd_r=7ec48735-9c85-472b-adf6-7fa5b9aa1ca4&pd_rd_plhdr=t&th=1&linkCode=ll1&tag=screenstacka-20&linkId=95825a4a28929a26d12cb3b3731f1dab&language=en_US&ref_=as_li_ss_tl" target="_blank" rel="noopener">View In Your Own Room - AR TV Viewer </a>
-</div>
-
+          <h2>📱 Preview in Your Actual Room</h2>
+          <p class="resource-text">Use Amazon's augmented reality to see exactly how any TV size will look on your wall before you buy.</p>
+          <img src="https://raw.githubusercontent.com/planetofthepaul/ScreenStacka/main/ScreenStackaScreenSizeARCompare.JPG" alt="Woman using AR to visualize TV size on wall" class="resource-img">
+          <p class="resource-text">
+            <strong>How it works:</strong> Click the link below, open it in the Amazon mobile app (required), select your TV size, swipe to the second image, and tap "View in your room" to see it in AR.
+          </p>
+          <div class="links">
+            <a href="https://www.amazon.com/dp/B0DXN42NXS?_encoding=UTF8&pd_rd_i=B0DXN42NXS&qid=1762192591&pd_rd_w=i16OA&content-id=amzn1.sym.e2c0b4b3-407d-4c4f-9d2b-fd120ec9dafb%3Aamzn1.sym.e2c0b4b3-407d-4c4f-9d2b-fd120ec9dafb&pf_rd_p=e2c0b4b3-407d-4c4f-9d2b-fd120ec9dafb&pf_rd_r=K5N1K8WP15JN23X7ZY6P&pd_rd_wg=dtZfd&pd_rd_r=7ec48735-9c85-472b-adf6-7fa5b9aa1ca4&pd_rd_plhdr=t&th=1&linkCode=ll1&tag=screenstacka-20&linkId=95825a4a28929a26d12cb3b3731f1dab&language=en_US&ref_=as_li_ss_tl" target="_blank" rel="noopener">Open Amazon AR Viewer →</a>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Footer -->
+    <footer>
+      <p><strong>ScreenStacka</strong> — Make smarter TV buying decisions</p>
+      <p>Compare screen sizes visually before you buy.</p>
+    </footer>
   </div>
 
 <script>
@@ -185,17 +838,17 @@ Choose the size TV you want to see, then swipe to the second product image and c
         <input id="diag-${idx}" type="number" min="1" step="0.1" value="${data.diagonal}" />
       </label>
       <label>
-        <span class="small">Aspect</span>
+        <span class="small">Aspect Ratio</span>
         <select id="asp-${idx}">
-          <option value="16:9">16:9</option>
-          <option value="16:10">16:10</option>
-          <option value="21:9">21:9</option>
-          <option value="4:3">4:3</option>
+          <option value="16:9">16:9 (Standard)</option>
+          <option value="16:10">16:10 (Wide)</option>
+          <option value="21:9">21:9 (Ultrawide)</option>
+          <option value="4:3">4:3 (Classic)</option>
           <option value="custom">Custom</option>
         </select>
       </label>
       <label id="custwrap-${idx}" style="display:none">
-        <span class="small">Custom W:H</span>
+        <span class="small">Custom Ratio</span>
         <input id="cust-${idx}" type="text" placeholder="e.g. 18:9" />
       </label>
     `;
@@ -250,9 +903,9 @@ Choose the size TV you want to see, then swipe to the second product image and c
     const badge = document.createElement("div");
     badge.className="badge";
     badge.innerHTML = `
-      <span class="sw" style="background:${B.color};width:10px;height:10px;border-radius:3px"></span>
-      <span class="big">${B.name} is ${fx1(areaChange)}% larger by area</span>
-      <span class="small">(${fx1(widthChange)}% wider, ${fx1(heightChange)}% taller vs ${A.name})</span>
+      <span class="sw" style="background:${B.color};width:14px;height:14px;border-radius:4px"></span>
+      <span class="big">${B.name} is ${fx1(Math.abs(areaChange))}% ${areaChange >= 0 ? 'larger' : 'smaller'} by area</span>
+      <span class="small-text">(${fx1(Math.abs(widthChange))}% ${widthChange >= 0 ? 'wider' : 'narrower'}, ${fx1(Math.abs(heightChange))}% ${heightChange >= 0 ? 'taller' : 'shorter'} vs ${A.name})</span>
     `;
     inject.appendChild(badge);
 
@@ -273,11 +926,11 @@ Choose the size TV you want to see, then swipe to the second product image and c
       const r=document.createElementNS("http://www.w3.org/2000/svg","rect");
       r.setAttribute("x",x); r.setAttribute("y",y);
       r.setAttribute("width",w); r.setAttribute("height",h);
-      r.setAttribute("rx",8);
+      r.setAttribute("rx",12);
       r.setAttribute("fill",o.c);
-      r.setAttribute("fill-opacity", i===0?0.24:0.34);
+      r.setAttribute("fill-opacity", i===0?0.2:0.3);
       r.setAttribute("stroke",o.c);
-      r.setAttribute("stroke-width","2");
+      r.setAttribute("stroke-width","3");
       svg.appendChild(r);
     });
   }
@@ -302,8 +955,8 @@ Choose the size TV you want to see, then swipe to the second product image and c
     saveHash();
     try{
       await navigator.clipboard.writeText(location.href);
-      shareBtn.textContent="Link copied";
-      setTimeout(()=>shareBtn.textContent="Share",1000);
+      shareBtn.textContent="✓ Copied";
+      setTimeout(()=>shareBtn.textContent="Share",1500);
     }catch{
       prompt("Copy this link:", location.href);
     }
