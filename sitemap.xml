@@ -17,52 +17,28 @@
   <url><loc>https://screenstacka.com/compare/55-vs-85/</loc><priority>0.6</priority></url>
   <url><loc>https://screenstacka.com/compare/50-vs-75/</loc><priority>0.6</priority></url>
   <url><loc>https://screenstacka.com/compare/32-vs-43/</loc><priority>0.6</priority></url>
-  <url><loc>https://screenst
-
-ls sitemap.xml
-
-cat > sitemap.xml << 'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://screenstacka.com/</loc><priority>1.0</priority></url>
-<url><loc>https://screenstacka.com/about/</loc><priority>0.3</priority></url>
-<url><loc>https://screenstacka.com/contact/</loc><priority>0.3</priority></url>
-<url><loc>https://screenstacka.com/privacy/</loc><priority>0.2</priority></url>
-<url><loc>https://screenstacka.com/terms/</loc><priority>0.2</priority></url>
-<url><loc>https://screenstacka.com/compare/55-vs-65/</loc><priority>0.8</priority></url>
-<url><loc>https://screenstacka.com/compare/65-vs-75/</loc><priority>0.8</priority></url>
-<url><loc>https://screenstacka.com/compare/50-vs-55/</loc><priority>0.8</priority></url>
-<url><loc>https://screenstacka.com/compare/75-vs-85/</loc><priority>0.8</priority></url>
-<url><loc>https://screenstacka.com/compare/55-vs-75/</loc><priority>0.7</priority></url>
-<url><loc>https://screenstacka.com/compare/43-vs-50/</loc><priority>0.7</priority></url>
-<url><loc>https://screenstacka.com/compare/50-vs-65/</loc><priority>0.7</priority></url>
-<url><loc>https://screenstacka.com/compare/65-vs-85/</loc><priority>0.7</priority></url>
-<url><loc>https://screenstacka.com/compare/43-vs-55/</loc><priority>0.6</priority></url>
-<url><loc>https://screenstacka.com/compare/55-vs-85/</loc><priority>0.6</priority></url>
-<url><loc>https://screenstacka.com/compare/50-vs-75/</loc><priority>0.6</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-43/</loc><priority>0.6</priority></url>
-<url><loc>https://screenstacka.com/compare/40-vs-43/</loc><priority>0.5</priority></url>
-<url><loc>https://screenstacka.com/compare/43-vs-65/</loc><priority>0.5</priority></url>
-<url><loc>https://screenstacka.com/compare/75-vs-98/</loc><priority>0.5</priority></url>
-<url><loc>https://screenstacka.com/compare/85-vs-98/</loc><priority>0.5</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-40/</loc><priority>0.5</priority></url>
-<url><loc>https://screenstacka.com/compare/40-vs-50/</loc><priority>0.5</priority></url>
-<url><loc>https://screenstacka.com/compare/40-vs-55/</loc><priority>0.5</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-50/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-55/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/40-vs-65/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/50-vs-85/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/43-vs-75/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/65-vs-98/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/55-vs-98/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/50-vs-98/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/43-vs-85/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/40-vs-75/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-65/</loc><priority>0.4</priority></url>
-<url><loc>https://screenstacka.com/compare/43-vs-98/</loc><priority>0.3</priority></url>
-<url><loc>https://screenstacka.com/compare/40-vs-85/</loc><priority>0.3</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-75/</loc><priority>0.3</priority></url>
-<url><loc>https://screenstacka.com/compare/40-vs-98/</loc><priority>0.3</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-85/</loc><priority>0.3</priority></url>
-<url><loc>https://screenstacka.com/compare/32-vs-98/</loc><priority>0.3</priority></url>
+  <url><loc>https://screenstacka.com/compare/40-vs-43/</loc><priority>0.5</priority></url>
+  <url><loc>https://screenstacka.com/compare/43-vs-65/</loc><priority>0.5</priority></url>
+  <url><loc>https://screenstacka.com/compare/75-vs-98/</loc><priority>0.5</priority></url>
+  <url><loc>https://screenstacka.com/compare/85-vs-98/</loc><priority>0.5</priority></url>
+  <url><loc>https://screenstacka.com/compare/32-vs-40/</loc><priority>0.5</priority></url>
+  <url><loc>https://screenstacka.com/compare/40-vs-50/</loc><priority>0.5</priority></url>
+  <url><loc>https://screenstacka.com/compare/40-vs-55/</loc><priority>0.5</priority></url>
+  <url><loc>https://screenstacka.com/compare/32-vs-50/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/32-vs-55/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/40-vs-65/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/50-vs-85/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/43-vs-75/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/65-vs-98/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/55-vs-98/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/50-vs-98/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/43-vs-85/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/40-vs-75/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/32-vs-65/</loc><priority>0.4</priority></url>
+  <url><loc>https://screenstacka.com/compare/43-vs-98/</loc><priority>0.3</priority></url>
+  <url><loc>https://screenstacka.com/compare/40-vs-85/</loc><priority>0.3</priority></url>
+  <url><loc>https://screenstacka.com/compare/32-vs-75/</loc><priority>0.3</priority></url>
+  <url><loc>https://screenstacka.com/compare/40-vs-98/</loc><priority>0.3</priority></url>
+  <url><loc>https://screenstacka.com/compare/32-vs-85/</loc><priority>0.3</priority></url>
+  <url><loc>https://screenstacka.com/compare/32-vs-98/</loc><priority>0.3</priority></url>
 </urlset>
